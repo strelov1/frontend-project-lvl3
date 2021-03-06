@@ -1,9 +1,41 @@
 <!doctype html>
 <html>
   <head>
-    <title>Webpack Package</title>
+    <title>RSS агрегатор</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div id="point"></div>
+    <main role="main">
+      <section class="jumbotron">
+        <div class="container-fluid bg-dark p-5">
+          <div class="row">
+            <div class="col-md-10 col-lg-8 mx-auto text-white">
+              <h1>RSS агрегатор</h1>
+              <p class="lead text-muted">Начните читать RSS сегодня! Это легко, это красиво.</p>
+              <form>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="ссылка RSS" aria-label="ссылка RSS" aria-describedby="button-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">ADD</button>
+                  </div>
+                </div>
+              </form>
+              <p class="text-muted">
+                Пример: https://ru.hexlet.io/lessons.rss
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer border-top mt-5">
+      <div class="contaier-xl">
+        <div class="text-center">
+          create by @strelov1
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
