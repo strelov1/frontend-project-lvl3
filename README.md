@@ -1,4 +1,7 @@
 # Проект: RSS агрегатор
+
+https://frontend-project-lvl3-sand.vercel.app
+
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/strelov1/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/strelov1/frontend-project-lvl3/actions)
 [![Node.js CI](https://github.com/strelov1/frontend-project-lvl3/workflows/Node.js%20CI/badge.svg)](https://github.com/strelov1/frontend-project-lvl3/actions?query=workflow%3A%22Node.js+CI%22)
