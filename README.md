@@ -10,5 +10,4 @@
 $ git clone https://github.com/strelov1/frontend-project-lvl3
 $ cd frontend-project-lvl3
 $ make install
-$ make link
 ```

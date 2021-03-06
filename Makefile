@@ -4,9 +4,6 @@ start:
 install:
 	npm install
 
-link:
-	npm link
-
 build:
 	rm -rf dist
 	NODE_ENV=production npx webpack
