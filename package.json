@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/strelov1/frontend-project-lvl3#readme",
   "dependencies": {
-    "bootstrap": "^5.0.0-beta2"
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.0-beta2",
+    "on-change": "^3.0.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
