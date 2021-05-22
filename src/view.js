@@ -1,11 +1,20 @@
 export default (container, state) => {
+  const { value, error } = state.form;
+
+  // eslint-disable-next-line no-param-reassign
   container.innerHTML = `
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="ссылка RSS" aria-label="ссылка RSS" aria-describedby="button-addon" value="${state.form.value}">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon">ADD2</button>
-      </div>
-      ${state.form.error}
-    </div>
+      <form action="" class="rss-form2">
+        <div class="form-row">
+          <div class="col">
+            <input autofocus="" required="" name="url" aria-label="url" class="form-control form-control-lg w-100" placeholder="ссылка RSS" value="${value}">
+          </div>
+          ${error}
+          <div class="col-auto">
+            <button type="submit" aria-label="add" class="btn btn-lg btn-primary px-sm-5">
+             Add
+            </button>
+          </div>
+        </div>
+      </form>
   `;
 };
