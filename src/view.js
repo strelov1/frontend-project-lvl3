@@ -2,6 +2,7 @@ import classNames from 'classnames';
 
 export default (container, state) => {
   const { value, error } = state.form;
+  const { feeds } = state;
 
   // eslint-disable-next-line no-param-reassign
   container.innerHTML = `
@@ -20,6 +21,7 @@ export default (container, state) => {
         Пример: https://ru.hexlet.io/lessons.rss
       </p>
       ${error ? `<div class="feedback text-danger">${error}</div>` : ''}
+      ${feeds.join(', ')}
     </div>
   `;
 };

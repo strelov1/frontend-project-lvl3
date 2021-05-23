@@ -2,13 +2,18 @@ import * as yup from 'yup';
 
 const inputSchema = yup.string().url().required();
 
-const validateInput = (value) => {
+const validateUrl = (value, feeds) => {
   try {
     inputSchema.validateSync(value);
   } catch (error) {
-    return `${error.message}: ${value}`;
+    return [true, `Ссылка должна быть валидным URL`];
   }
-  return null;
+
+  if (feeds.includes(value)) {
+    return [true, `RSS уже существует`];
+  }
+
+  return [false, null];
 };
 
-export default validateInput;
+export default validateUrl;
