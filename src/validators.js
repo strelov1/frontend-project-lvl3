@@ -1,12 +1,12 @@
 import * as yup from 'yup';
 
-const inputSchema = yup.string().required();
+const inputSchema = yup.string().url().required();
 
 const validateInput = (value) => {
   try {
     inputSchema.validateSync(value);
   } catch (error) {
-    return error.message;
+    return `${error.message}: ${value}`;
   }
   return null;
 };

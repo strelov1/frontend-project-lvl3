@@ -1,20 +1,26 @@
 import validateInput from './validators';
+import { formState } from './constant';
 
 export default (container, state) => {
-  const input = container.querySelector('.rss-form input');
-
+  const formElement = container.querySelector('.rss-form');
   const { form } = state;
 
-  container.addEventListener('submit', (e) => {
+  formElement.addEventListener('submit', (e) => {
     e.preventDefault();
-  });
 
-  input.addEventListener('change', (e) => {
-    e.preventDefault();
-    const error = validateInput(e.target.value);
+    const formData = new FormData(e.target);
+    const url = formData.get('url');
+
+    form.value = url;
+
+    const error = validateInput(form.value);
+
     if (error) {
       form.error = error;
+      form.state = formState.EMPTY;
+    } else {
+      form.error = '';
+      form.state = formState.FILLED;
     }
-    form.value = e.target.value;
   });
 };
