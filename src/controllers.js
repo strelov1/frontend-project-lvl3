@@ -9,7 +9,7 @@ export default (container, state) => {
 
     const formData = new FormData(e.target);
     const url = formData.get('url');
-    
+
     form.value = url;
 
     const [hasError, errorDescription] = validateUrl(form.value, feeds);

@@ -6,11 +6,11 @@ const validateUrl = (value, feeds) => {
   try {
     inputSchema.validateSync(value);
   } catch (error) {
-    return [true, `Ссылка должна быть валидным URL`];
+    return [true, 'Ссылка должна быть валидным URL'];
   }
 
   if (feeds.includes(value)) {
-    return [true, `RSS уже существует`];
+    return [true, 'RSS уже существует'];
   }
 
   return [false, null];
