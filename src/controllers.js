@@ -1,3 +1,4 @@
+import { formState } from './constant';
 import validateUrl from './validators';
 
 export default (container, state) => {
@@ -8,18 +9,16 @@ export default (container, state) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const url = formData.get('url');
+    const url = formData.get('url').trim();
 
-    form.value = url;
+    form.url = url;
 
-    const [hasError, errorDescription] = validateUrl(form.value, feeds);
+    const [hasError, errorDescription] = validateUrl(form.url, feeds);
 
     if (hasError) {
       form.error = errorDescription;
     } else {
-      feeds.push(form.value);
-      form.value = '';
-      form.error = '';
+      form.state = formState.FILLED;
     }
   });
 };

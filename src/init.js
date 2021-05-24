@@ -1,16 +1,17 @@
 import watchers from './watchers';
 import bindControllers from './controllers';
 import render from './view';
-
-import './app.css';
+import { formState } from './constant';
 
 export default () => {
   const initState = {
     form: {
-      value: '',
+      url: '',
       error: '',
+      state: formState.EMPTY,
     },
     feeds: [],
+    posts: [],
   };
 
   const container = document.getElementById('root');
