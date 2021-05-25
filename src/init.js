@@ -11,7 +11,7 @@ export default () => {
     form: {
       url: '',
       error: '',
-      success: '',
+      completed: false,
       state: formState.EMPTY,
     },
     feeds: [],
@@ -21,7 +21,7 @@ export default () => {
   const container = document.getElementById('root');
 
   i18next.init({
-    lng: 'ru',
+    lng: 'en',
     resources: {
       en: {
         translation: {
@@ -29,10 +29,11 @@ export default () => {
           feeds: 'Feeds',
           posts: 'Posts',
           forms: {
-            success: '',
+            success: 'RSS loaded',
             validation: {
               invalid: '',
               required: '',
+              exist: 'Rss already exist',
             },
           },
         },
@@ -43,9 +44,11 @@ export default () => {
           feeds: 'Фиды',
           posts: 'Посты',
           forms: {
+            success: 'RSS успешно загружен',
             validation: {
               invalid: '',
               required: '',
+              exist: 'Rss already exist',
             },
           },
         },

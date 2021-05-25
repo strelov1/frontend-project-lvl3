@@ -31,7 +31,7 @@ const formHandler = (state) => {
       form.state = formState.EMPTY;
       form.url = '';
       form.error = '';
-      form.success = 'RSS успешно загружен';
+      form.completed = true;
     }).catch((e) => {
       form.error = e.message;
     });
@@ -45,9 +45,9 @@ export default (initState, onUpdate) => {
         formHandler(this);
         break;
       case 'form.error':
-        // clean success on error
+        // clean completed on error
         if (value) {
-          this.form.success = '';
+          this.form.completed = false;
         }
         break;
       default:

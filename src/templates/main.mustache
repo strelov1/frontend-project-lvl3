@@ -18,9 +18,11 @@
                 {{# form.error}}
                     <div class="feedback text-danger">{{ form.error }}</div>
                 {{/ form.error}}
-                {{# form.success}}
-                    <div class="feedback text-success">{{ form.success }}</div>
-                {{/ form.success}}
+                {{# form.completed}}
+                    <div class="feedback text-success">
+                        {{#i18n}}forms.success{{/i18n}}
+                    </div>
+                {{/ form.completed}}
             </div>
         </div>
     </div>
