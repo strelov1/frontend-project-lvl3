@@ -7,9 +7,9 @@ export default {
       forms: {
         success: 'RSS loaded',
         validation: {
-          invalid: '',
-          required: '',
-          exist: 'Rss already exist',
+          already_exist: 'Rss already exist',
+          invalid: 'The link must be a valid URL',
+          network_error: 'Network error',
         },
       },
     },
@@ -22,8 +22,9 @@ export default {
       forms: {
         success: 'RSS успешно загружен',
         validation: {
+          already_exist: 'RSS уже существует',
           invalid: 'Ссылка должна быть валидным URL',
-          exist: 'RSS уже существует',
+          network_error: 'Ошибка сети',
         },
       },
     },

@@ -43,7 +43,7 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   }
 });
 
-export default (initState, onUpdate) => {
+export default (initState, i18n, onUpdate) => {
   const state = onChange(initState, function watch(path, value) {
     switch (path) {
       case 'form.state':
@@ -55,12 +55,12 @@ export default (initState, onUpdate) => {
               this.form.error = '';
             })
             .catch((e) => {
-              this.form.error = e.message;
+              console.warn(e);
+              this.form.error = i18n.t('forms.validation.network_error');
             });
         }
         break;
       case 'form.error':
-        // clean completed on error
         if (value) {
           this.form.state = formState.EMPTY;
         }

@@ -27,11 +27,15 @@ export default () => {
     setLocale({
       mixed: {
         default: i18next.t('forms.validation.invalid'),
-        required: i18next.t('forms.validation.required'),
+        already_exist: i18next.t('forms.validation.already_exist'),
+      },
+      string: {
+        url: i18next.t('forms.validation.invalid'),
+        default: i18next.t('forms.validation.invalid'),
       },
     });
 
-    attachWatchers(initState, (state) => {
+    attachWatchers(initState, i18next, (state) => {
       render(container, state, i18next);
       bindControllers(container, state);
     });

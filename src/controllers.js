@@ -1,5 +1,5 @@
 import formState from './constant';
-import validateUrl from './validators';
+import validateFeed from './validators';
 
 export default (container, state) => {
   const formElement = container.querySelector('.rss-form');
@@ -13,10 +13,10 @@ export default (container, state) => {
 
     form.url = url;
 
-    const [hasError, errorDescription] = validateUrl(form.url, feeds);
+    const errorMsg = validateFeed(form.url, feeds);
 
-    if (hasError) {
-      form.error = errorDescription;
+    if (errorMsg) {
+      form.error = errorMsg;
     } else {
       form.state = formState.FILLED;
     }
