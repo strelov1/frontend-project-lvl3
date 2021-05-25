@@ -8,6 +8,7 @@ export default () => {
     form: {
       url: '',
       error: '',
+      success: '',
       state: formState.EMPTY,
     },
     feeds: [],

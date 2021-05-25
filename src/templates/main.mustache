@@ -18,6 +18,9 @@
                 {{# form.error}}
                     <div class="feedback text-danger">{{ form.error }}</div>
                 {{/ form.error}}
+                {{# form.success}}
+                    <div class="feedback text-success">{{ form.success }}</div>
+                {{/ form.success}}
             </div>
         </div>
     </div>
@@ -43,7 +46,7 @@
           <ul class="list-group">
               {{#posts}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <a href="https://ru.hexlet.io/courses/python-declarative-programming/lessons/outro/theory_unit" class="font-weight-bold" data-id="2" target="_blank" rel="noopener noreferrer">
+                  <a href="{{ link }}" class="font-weight-bold" data-id="2" target="_blank" rel="noopener noreferrer">
                     {{ title }}
                   </a>
                   <button type="button" class="btn btn-primary btn-sm" data-id="2" data-toggle="modal" data-target="#modal">Просмотр</button>
