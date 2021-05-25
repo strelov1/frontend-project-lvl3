@@ -7,8 +7,10 @@ import formState from './constant';
 
 const refreshPostsTimeout = 5 * 1000;
 
-const fetchFeeds = (url) => axios.get(url)
-  .then((response) => response.data);
+const wrapProxy = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`;
+
+const fetchFeeds = (url) => axios.get(wrapProxy(url))
+  .then((response) => response.data.contents);
 
 const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
   const data = parseRss(xmlString);
@@ -20,8 +22,8 @@ const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
       description: data.description,
     };
 
-    state.feeds.push(feed);
-    state.posts.push(...data.items.map((item) => ({
+    state.feeds.unshift(feed);
+    state.posts.unshift(...data.items.map((item) => ({
       id: _.uniqueId('post_'),
       feedId: feed.id,
       ...item,
@@ -33,20 +35,13 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   const data = parseRss(xmlString);
   if (data) {
     const oldPosts = state.posts.filter((post) => post.feedId === feed.id);
-    const newPosts = data.items.map((post) => ({ ...post, feedId: feed.id, id: _.uniqueId('post_') }));
-    const diff = _.differenceBy(oldPosts, newPosts, 'title');
+    const diff = _.differenceBy(data.items, oldPosts, 'title');
     if (!_.isEmpty(diff)) {
-      state.posts.unshift(...diff);
+      const newPost = diff.map((post) => ({ ...post, feedId: feed.id, id: _.uniqueId('post_') }));
+      state.posts.unshift(...newPost);
     }
   }
 });
-
-const refreshPosts = (state) => {
-  const promises = state.feeds.map((feed) => updatePosts(feed, state));
-  Promise.all(promises).finally(() => {
-    setTimeout(() => refreshPosts(state), refreshPostsTimeout);
-  });
-};
 
 export default (initState, onUpdate) => {
   const state = onChange(initState, function watch(path, value) {
@@ -79,5 +74,12 @@ export default (initState, onUpdate) => {
   // first render
   onUpdate(state);
 
-  setTimeout(() => refreshPosts(state), refreshPostsTimeout);
+  const refreshPosts = () => {
+    const promises = state.feeds.map((feed) => updatePosts(feed, state));
+    Promise.all(promises).finally(() => {
+      setTimeout(() => refreshPosts(state), refreshPostsTimeout);
+    });
+  };
+
+  setTimeout(() => refreshPosts(), refreshPostsTimeout);
 };
