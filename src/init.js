@@ -1,17 +1,16 @@
 import i18next from 'i18next';
 import { setLocale } from 'yup';
 
-import watchers from './watchers';
+import attachWatchers from './watchers';
 import bindControllers from './controllers';
 import render from './view';
-import { formState } from './constant';
+import formState from './constant';
 
 export default () => {
   const initState = {
     form: {
       url: '',
       error: '',
-      completed: false,
       state: formState.EMPTY,
     },
     feeds: [],
@@ -61,7 +60,8 @@ export default () => {
         required: i18next.t('forms.validation.required'),
       },
     });
-    watchers(initState, (state) => {
+
+    attachWatchers(initState, (state) => {
       render(container, state, i18next);
       bindControllers(container, state);
     });

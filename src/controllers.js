@@ -1,4 +1,4 @@
-import { formState } from './constant';
+import formState from './constant';
 import validateUrl from './validators';
 
 export default (container, state) => {
