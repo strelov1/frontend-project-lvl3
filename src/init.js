@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import { setLocale } from 'yup';
+import locales from './locales';
 
 import attachWatchers from './watchers';
 import bindControllers from './controllers';
@@ -20,8 +21,8 @@ export default () => {
   const container = document.getElementById('root');
 
   i18next.init({
-    lng: 'en',
-    resources: ,
+    lng: 'ru',
+    resources: locales,
   }).then(() => {
     setLocale({
       mixed: {
