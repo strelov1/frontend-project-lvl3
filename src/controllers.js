@@ -24,14 +24,8 @@ const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
   }
 });
 
-export default (container, state, i18n) => {
+export const formHandlers = (container, state, i18n) => {
   const formElement = container.querySelector('.rss-form');
-  const modalButtons = container.querySelectorAll('button[data-bs-toggle="modal"]');
-
-  const modal = document.getElementById('exampleModal');
-  const modalTitle = modal.querySelector('.modal-title');
-  const modalBody = modal.querySelector('.modal-body');
-  const modalLink = modal.querySelector('.full-article');
 
   const { form, feeds } = state;
 
@@ -65,17 +59,31 @@ export default (container, state, i18n) => {
         form.state = formState.ERROR;
       });
   });
+};
+
+export const postsHandlers = (container, state) => {
+  const modalButtons = container.querySelectorAll('button[data-bs-toggle="modal"]');
+
+  const modal = document.getElementById('exampleModal');
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  const modalLink = modal.querySelector('.full-article');
+
+  const { form, readPosts, posts } = state;
 
   modalButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       const postId = e.target.dataset.id;
-      const post = state.posts.find((item) => item.id === postId);
+      const foundPost = posts.find((item) => item.id === postId);
 
-      modalTitle.textContent = post.title;
-      modalBody.textContent = post.description;
-      modalLink.href = post.link;
+      modalTitle.textContent = foundPost.title;
+      modalBody.textContent = foundPost.description;
+      modalLink.href = foundPost.link;
 
-      state.readPosts.push(postId);
+      readPosts.push(postId);
+
+      console.log('state', readPosts);
+      form.state = formState.LOADING;
     });
   });
 };

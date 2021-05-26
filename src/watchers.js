@@ -1,7 +1,7 @@
 import onChange from 'on-change';
 import _ from 'lodash';
 
-import bindControllers from './controllers';
+import { postsHandlers, formHandlers } from './controllers';
 import renderFull, {
   renderFeeds, renderPosts, renderForm, renderFormStatus,
 } from './view';
@@ -23,20 +23,21 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
 });
 
 export default (initState, i18Instance, container) => {
-  const watchedState = onChange(initState, (path) => {
+  const watchedState = onChange(initState, (path, value) => {
+    console.log('onChange', path, value);
     switch (path) {
       case 'form.state':
-        renderForm(container, initState, i18Instance);
-        renderFormStatus(container, initState, i18Instance);
-        bindControllers(container, initState, i18Instance);
+        renderForm(container, watchedState, i18Instance);
+        renderFormStatus(container, watchedState, i18Instance);
+        formHandlers(container, watchedState, i18Instance);
         break;
       case 'feeds':
-        renderFeeds(container, initState, i18Instance);
+        renderFeeds(container, watchedState, i18Instance);
         break;
-      case 'posts':
       case 'readPosts':
-        renderPosts(container, initState, i18Instance);
-        bindControllers(container, initState, i18Instance);
+      case 'posts':
+        renderPosts(container, watchedState, i18Instance);
+        postsHandlers(container, watchedState);
         break;
       default:
         break;
@@ -45,7 +46,7 @@ export default (initState, i18Instance, container) => {
 
   // first render
   renderFull(container, watchedState, i18Instance);
-  bindControllers(container, watchedState, i18Instance);
+  formHandlers(container, watchedState, i18Instance);
 
   const refreshPosts = () => {
     const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));
