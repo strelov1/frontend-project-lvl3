@@ -2,15 +2,16 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Project RSS Aggregator",
-  "main": "index.js",
+  "main": "./src/init.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "npx jest"
   },
   "jest": {
     "verbose": true,
     "testURL": "http://localhost/",
     "transform": {
-      "^.+\\.mustache?$": "mustache-jest"
+      "^.+\\.mustache?$": "mustache-jest",
+      "^.+\\.js$": "babel-jest"
     }
   },
   "repository": {
