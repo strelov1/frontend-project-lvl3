@@ -8,4 +8,5 @@ export default (container, state, i18next) => {
     i18n: () => (key) => i18next.t(key),
     formCompleted: state.form.state === formState.COMPLETED,
   });
+  document.title = i18next.t('form.title');
 };

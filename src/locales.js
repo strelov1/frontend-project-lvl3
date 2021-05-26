@@ -1,10 +1,11 @@
 export default {
   en: {
     translation: {
-      example: 'Example',
-      feeds: 'Feeds',
-      posts: 'Posts',
-      forms: {
+      form: {
+        title: 'RSS aggregator',
+        description: 'Start reading RSS today! It\'s easy, it\'s beautiful.',
+        label: 'RSS link',
+        example: 'Example',
         success: 'RSS loaded',
         validation: {
           already_exist: 'Rss already exist',
@@ -12,14 +13,17 @@ export default {
           network_error: 'Network error',
         },
       },
+      feeds: 'Feeds',
+      posts: 'Posts',
     },
   },
   ru: {
     translation: {
-      example: 'Пример',
-      feeds: 'Фиды',
-      posts: 'Посты',
-      forms: {
+      form: {
+        title: 'RSS агрегатор',
+        description: 'Начните читать RSS сегодня! Это легко, это красиво.',
+        label: 'ссылка RSS',
+        example: 'Пример',
         success: 'RSS успешно загружен',
         validation: {
           already_exist: 'RSS уже существует',
@@ -27,6 +31,8 @@ export default {
           network_error: 'Ошибка сети',
         },
       },
+      feeds: 'Фиды',
+      posts: 'Посты',
     },
   },
 };

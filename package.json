@@ -1,14 +1,18 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "Project RSS Agregator",
+  "description": "Project RSS Aggregator",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "jest --colors"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --colors"
   },
   "jest": {
     "verbose": true,
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.mustache?$": "mustache-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -26,13 +30,14 @@
     "i18next": "^20.3.0",
     "lodash": "^4.17.21",
     "mustache": "^4.2.0",
-    "mustache-loader": "^1.4.3",
     "on-change": "^3.0.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@jest/globals": "^26.6.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.1",
     "babel-loader": "^8.1.0",
@@ -46,6 +51,8 @@
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.6.1",
     "jest-cli": "^26.6.1",
+    "mustache-jest": "^1.1.1",
+    "mustache-loader": "^1.4.3",
     "prettier": "2.3.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.2.0",
