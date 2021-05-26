@@ -1,3 +1,6 @@
+
+import _ from 'lodash';
+
 import formState from './constant';
 import validateFeed from './validators';
 import parseRss from './parser';
@@ -55,8 +58,7 @@ export default (container, state, i18n) => {
         form.error = '';
       })
       .catch((error) => {
-        const errorKey = error.isParsingError ? 'res': 'network_error';
-        console.warn(e);
+        const errorKey = error.isParsingError ? 'rss_error': 'network_error';
         form.error = i18n.t(`form.validation.${errorKey}`);
       });
   });

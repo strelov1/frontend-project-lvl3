@@ -29,6 +29,7 @@ export default () => {
       mixed: {
         default: i18next.t('form.validation.invalid'),
         already_exist: i18next.t('form.validation.already_exist'),
+        notOneOf: i18next.t('form.validation.already_exist'),
       },
       string: {
         url: i18next.t('form.validation.invalid'),
