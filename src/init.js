@@ -21,25 +21,26 @@ export default () => {
 
   const container = document.getElementById('root');
 
-  i18next.init({
+  const i18Instance = i18next.createInstance();
+
+  return i18Instance.init({
     lng: 'ru',
     resources: locales,
   }).then(() => {
     setLocale({
       mixed: {
-        default: i18next.t('form.validation.invalid'),
-        already_exist: i18next.t('form.validation.already_exist'),
-        notOneOf: i18next.t('form.validation.already_exist'),
+        default: i18Instance.t('form.validation.invalid'),
+        notOneOf: i18Instance.t('form.validation.already_exist'),
       },
       string: {
-        url: i18next.t('form.validation.invalid'),
-        default: i18next.t('form.validation.invalid'),
+        url: i18Instance.t('form.validation.invalid'),
+        default: i18Instance.t('form.validation.invalid'),
       },
     });
 
     attachWatchers(initState, (state) => {
-      render(container, state, i18next);
-      bindControllers(container, state, i18next);
+      render(container, state, i18Instance);
+      bindControllers(container, state, i18Instance);
     });
   });
 };

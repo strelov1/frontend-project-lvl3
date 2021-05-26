@@ -46,6 +46,7 @@ const template = `
                         {{#i18n}}form.success{{/i18n}}
                     </div>
                 {{/ formCompleted }}
+                {{# formLoading }}Loading...{{/ formLoading }}
             </div>
         </div>
     </div>
