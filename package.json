@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Project RSS Aggregator",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --colors"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "jest": {
     "verbose": true,

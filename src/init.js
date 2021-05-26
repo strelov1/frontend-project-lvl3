@@ -16,6 +16,7 @@ export default () => {
     },
     feeds: [],
     posts: [],
+    readPosts: [],
   };
 
   const container = document.getElementById('root');

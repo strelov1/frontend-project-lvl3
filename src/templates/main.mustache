@@ -48,10 +48,17 @@
           <ul class="list-group">
               {{#posts}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <a href="{{ link }}" class="font-weight-bold" data-id="2" target="_blank" rel="noopener noreferrer">
-                    {{ title }}
-                  </a>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {{#isReadPost}}
+                        <a href="{{ link }}" class="font-weight-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+                            {{ title }}
+                        </a>
+                    {{/isReadPost}}
+                    {{^isReadPost}}
+                        <a href="{{ link }}" class="font-weight-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+                            {{ title }}
+                        </a>
+                    {{/isReadPost}}
+                    <button type="button" class="btn btn-primary btn-sm" data-id="{{ id }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Просмотр
                     </button>
                 </li>
