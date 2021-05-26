@@ -23,13 +23,7 @@ module.exports = {
           'style-loader',
           'css-loader',
         ],
-      },
-      {
-        test: /\.mustache$/,
-        use: [
-          'mustache-loader',
-        ],
-      },
+      }
     ],
   },
   plugins: [

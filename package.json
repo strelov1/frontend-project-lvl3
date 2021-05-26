@@ -8,11 +8,7 @@
   },
   "jest": {
     "verbose": true,
-    "testURL": "http://localhost/",
-    "transform": {
-      "^.+\\.mustache?$": "mustache-jest",
-      "^.+\\.js$": "babel-jest"
-    }
+    "testURL": "http://localhost/"
   },
   "repository": {
     "type": "git",
@@ -52,7 +48,6 @@
     "jest": "^26.6.1",
     "jest-cli": "^26.6.1",
     "mustache-jest": "^1.1.1",
-    "mustache-loader": "^1.4.3",
     "prettier": "2.3.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.2.0",

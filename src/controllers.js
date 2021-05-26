@@ -1,7 +1,28 @@
 import formState from './constant';
 import validateFeed from './validators';
+import parseRss from './parser';
+import fetchFeeds from './utils';
 
-export default (container, state) => {
+const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
+  const data = parseRss(xmlString);
+  if (data) {
+    const feed = {
+      id: _.uniqueId('feed_'),
+      url,
+      title: data.title,
+      description: data.description,
+    };
+
+    state.feeds.unshift(feed);
+    state.posts.unshift(...data.items.map((item) => ({
+      id: _.uniqueId('post_'),
+      feedId: feed.id,
+      ...item,
+    })));
+  }
+});
+
+export default (container, state, i18n) => {
   const formElement = container.querySelector('.rss-form');
   const modalButtons = container.querySelectorAll('button[data-bs-toggle="modal"]');
 
@@ -24,9 +45,20 @@ export default (container, state) => {
 
     if (errorMsg) {
       form.error = errorMsg;
-    } else {
-      form.state = formState.FILLED;
+      return;
     }
+
+    loadNewFeeds(form.url, state)
+      .then(() => {
+        form.state = formState.COMPLETED;
+        form.url = '';
+        form.error = '';
+      })
+      .catch((error) => {
+        const errorKey = error.isParsingError ? 'res': 'network_error';
+        console.warn(e);
+        form.error = i18n.t(`form.validation.${errorKey}`);
+      });
   });
 
   modalButtons.forEach((button) => {

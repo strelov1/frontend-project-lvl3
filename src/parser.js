@@ -5,6 +5,7 @@ export default (data) => {
   const parseError = document.querySelector('parsererror');
   if (parseError) {
     const error = new Error(parseError.textContent);
+    error.isParsingError = true;
     throw error;
   }
 

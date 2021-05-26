@@ -27,18 +27,18 @@ export default () => {
   }).then(() => {
     setLocale({
       mixed: {
-        default: i18next.t('forms.validation.invalid'),
-        already_exist: i18next.t('forms.validation.already_exist'),
+        default: i18next.t('form.validation.invalid'),
+        already_exist: i18next.t('form.validation.already_exist'),
       },
       string: {
-        url: i18next.t('forms.validation.invalid'),
-        default: i18next.t('forms.validation.invalid'),
+        url: i18next.t('form.validation.invalid'),
+        default: i18next.t('form.validation.invalid'),
       },
     });
 
-    attachWatchers(initState, i18next, (state) => {
+    attachWatchers(initState, (state) => {
       render(container, state, i18next);
-      bindControllers(container, state);
+      bindControllers(container, state, i18next);
     });
   });
 };
