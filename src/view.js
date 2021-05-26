@@ -42,7 +42,7 @@ const formStatusTemplate = `
 </div>
 {{/ formCompleted }}
 {{# formLoading }}Loading...{{/ formLoading }}
-`
+`;
 
 const fullTemplate = `
 <section class="jumbotron">
@@ -82,7 +82,7 @@ const feedsTemplate = `
 `;
 
 const postsTemplate = `
-<h2>{{#i18n}}posts{{/i18n}}</h2>
+<h2>{{#i18n}}posts.title{{/i18n}}</h2>
 <ul class="list-group">
     {{#posts}}
     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -97,59 +97,58 @@ const postsTemplate = `
             </a>
         {{/isReadPost}}
         <button type="button" class="btn btn-primary btn-sm" data-id="{{ id }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Просмотр
+            {{#i18n}}posts.show{{/i18n}}
         </button>
     </li>
     {{/posts}}
 </ul>
-`
+`;
 
 export const renderForm = (container, state, i18next) => {
-    const formContainer = container.querySelector('.rss-form');
-    const content = Mustache.render(formTemplate, {
-        form: state.form,
-        i18n: () => (key) => i18next.t(key),
-        formCompleted: state.form.state === formState.COMPLETED,
-        formLoading: state.form.state === formState.LOADING,
-    });
-    formContainer.innerHTML = content;
+  const formContainer = container.querySelector('.rss-form');
+  const content = Mustache.render(formTemplate, {
+    form: state.form,
+    i18n: () => (key) => i18next.t(key),
+    formCompleted: state.form.state === formState.COMPLETED,
+    formLoading: state.form.state === formState.LOADING,
+  });
+  formContainer.innerHTML = content;
 };
 
 export const renderFormStatus = (container, state, i18next) => {
-    const formContainer = container.querySelector('.rss-form');
-    const content = Mustache.render(formStatusTemplate, {
-        form: state.form,
-        i18n: () => (key) => i18next.t(key),
-        formCompleted: state.form.state === formState.COMPLETED,
-        formLoading: state.form.state === formState.LOADING,
-    });
-    formContainer.nextElementSibling.innerHTML = content;
+  const formContainer = container.querySelector('.rss-form');
+  const content = Mustache.render(formStatusTemplate, {
+    form: state.form,
+    i18n: () => (key) => i18next.t(key),
+    formCompleted: state.form.state === formState.COMPLETED,
+    formLoading: state.form.state === formState.LOADING,
+  });
+  formContainer.nextElementSibling.innerHTML = content;
 };
 
 export const renderFeeds = (container, state, i18next) => {
-   const feedsContainer = container.querySelector('.feeds');
-   const content = Mustache.render(feedsTemplate,  {
+  const feedsContainer = container.querySelector('.feeds');
+  const content = Mustache.render(feedsTemplate, {
     i18n: () => (key) => i18next.t(key),
     feeds: state.feeds,
-   });
-   feedsContainer.innerHTML = content;
+  });
+  feedsContainer.innerHTML = content;
 };
 
 export const renderPosts = (container, state, i18next) => {
-   const postsContainer = container.querySelector('.posts');
-   const content = Mustache.render(postsTemplate, {
-        i18n: () => (key) => i18next.t(key),
-        posts: state.posts.map((post) => ({
-        ...post, isReadPost: state.readPosts.includes(post.id),
-        })),
-   });
-   postsContainer.innerHTML = content;
+  const postsContainer = container.querySelector('.posts');
+  const content = Mustache.render(postsTemplate, {
+    i18n: () => (key) => i18next.t(key),
+    posts: state.posts.map((post) => ({
+      ...post, isReadPost: state.readPosts.includes(post.id),
+    })),
+  });
+  postsContainer.innerHTML = content;
 };
 
-
- 
 export default (container, state, i18next) => {
   document.title = i18next.t('form.title');
+  // eslint-disable-next-line no-param-reassign
   container.innerHTML = Mustache.render(fullTemplate, {
     ...state,
     i18n: () => (key) => i18next.t(key),

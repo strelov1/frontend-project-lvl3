@@ -15,7 +15,10 @@ export default {
         },
       },
       feeds: 'Feeds',
-      posts: 'Posts',
+      posts: {
+        title: 'Posts',
+        show: 'Show',
+      },
     },
   },
   ru: {
@@ -34,7 +37,10 @@ export default {
         },
       },
       feeds: 'Фиды',
-      posts: 'Посты',
+      posts: {
+        title: 'Посты',
+        show: 'Просмотр',
+      },
     },
   },
 };

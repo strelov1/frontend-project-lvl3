@@ -37,6 +37,5 @@ export default () => {
     });
 
     attachWatchers(initState, i18Instance, container);
-
   });
 };

@@ -47,7 +47,7 @@ export default (container, state, i18n) => {
 
     if (errorMsg) {
       form.error = errorMsg;
-      form.state = formState.FILLING;
+      form.state = formState.ERROR;
       return;
     }
 
