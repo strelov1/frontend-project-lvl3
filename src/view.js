@@ -10,7 +10,8 @@ const template = `
                 <p class="lead text-muted">{{#i18n}}form.description{{/i18n}}</p>
                 <form class="rss-form">
                 <div class="input-group mb-3">
-                <input 
+                <input
+                    {{# formLoading }}readonly{{/ formLoading }}
                     type="text"
                     autofocus
                     required
@@ -27,6 +28,7 @@ const template = `
                         type="submit"
                         id="button-addon"
                         aria-label="add"
+                        {{# formLoading }}disabled{{/ formLoading }}
                     >
                         ADD
                     </button>
@@ -70,12 +72,12 @@ const template = `
               {{#posts}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     {{#isReadPost}}
-                        <a href="{{ link }}" class="font-weight-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+                        <a href="{{ link }}" class="font-weight-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
                             {{ title }}
                         </a>
                     {{/isReadPost}}
                     {{^isReadPost}}
-                        <a href="{{ link }}" class="font-weight-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+                        <a href="{{ link }}" class="font-weight-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
                             {{ title }}
                         </a>
                     {{/isReadPost}}
@@ -97,6 +99,7 @@ export default (container, state, i18next) => {
     ...state,
     i18n: () => (key) => i18next.t(key),
     formCompleted: state.form.state === formState.COMPLETED,
+    formLoading: state.form.state === formState.LOADING,
     posts: state.posts.map((post) => ({
       ...post, isReadPost: state.readPosts.includes(post.id),
     })),

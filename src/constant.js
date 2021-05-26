@@ -1,6 +1,6 @@
 const formState = {
   EMPTY: 'EMPTY',
-  FILLED: 'FILLED',
+  LOADING: 'LOADING',
   COMPLETED: 'COMPLETED',
 };
 

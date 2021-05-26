@@ -50,6 +50,8 @@ export default (container, state, i18n) => {
       form.error = errorMsg;
       return;
     }
+    
+    form.state = formState.LOADING;
 
     loadNewFeeds(form.url, state)
       .then(() => {
@@ -60,6 +62,7 @@ export default (container, state, i18n) => {
       .catch((error) => {
         const errorKey = error.isParsingError ? 'rss_error': 'network_error';
         form.error = i18n.t(`form.validation.${errorKey}`);
+        form.state = formState.EMPTY;
       });
   });
 
