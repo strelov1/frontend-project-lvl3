@@ -23,20 +23,20 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
 });
 
 export default (initState, i18Instance, container) => {
-  const state = onChange(initState, function watch(path) {
+  const watchedState = onChange(initState, (path) => {
     switch (path) {
       case 'form.state':
-        renderForm(container, this, i18Instance);
-        renderFormStatus(container, this, i18Instance);
-        bindControllers(container, this, i18Instance);
+        renderForm(container, initState, i18Instance);
+        renderFormStatus(container, initState, i18Instance);
+        bindControllers(container, initState, i18Instance);
         break;
       case 'feeds':
-        renderFeeds(container, this, i18Instance);
+        renderFeeds(container, initState, i18Instance);
         break;
       case 'posts':
       case 'readPosts':
-        renderPosts(container, this, i18Instance);
-        bindControllers(container, state, i18Instance);
+        renderPosts(container, initState, i18Instance);
+        bindControllers(container, initState, i18Instance);
         break;
       default:
         break;
@@ -44,13 +44,13 @@ export default (initState, i18Instance, container) => {
   });
 
   // first render
-  renderFull(container, state, i18Instance);
-  bindControllers(container, state, i18Instance);
+  renderFull(container, watchedState, i18Instance);
+  bindControllers(container, watchedState, i18Instance);
 
   const refreshPosts = () => {
-    const promises = state.feeds.map((feed) => updatePosts(feed, state));
+    const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));
     Promise.all(promises).finally(() => {
-      setTimeout(() => refreshPosts(state), refreshPostsTimeout);
+      setTimeout(() => refreshPosts(watchedState), refreshPostsTimeout);
     });
   };
 

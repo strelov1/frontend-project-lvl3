@@ -106,44 +106,40 @@ const postsTemplate = `
 
 export const renderForm = (container, state, i18next) => {
   const formContainer = container.querySelector('.rss-form');
-  const content = Mustache.render(formTemplate, {
+  formContainer.innerHTML = Mustache.render(formTemplate, {
     form: state.form,
     i18n: () => (key) => i18next.t(key),
     formCompleted: state.form.state === formState.COMPLETED,
     formLoading: state.form.state === formState.LOADING,
   });
-  formContainer.innerHTML = content;
 };
 
 export const renderFormStatus = (container, state, i18next) => {
   const formContainer = container.querySelector('.rss-form');
-  const content = Mustache.render(formStatusTemplate, {
+  formContainer.nextElementSibling.innerHTML = Mustache.render(formStatusTemplate, {
     form: state.form,
     i18n: () => (key) => i18next.t(key),
     formCompleted: state.form.state === formState.COMPLETED,
     formLoading: state.form.state === formState.LOADING,
   });
-  formContainer.nextElementSibling.innerHTML = content;
 };
 
 export const renderFeeds = (container, state, i18next) => {
   const feedsContainer = container.querySelector('.feeds');
-  const content = Mustache.render(feedsTemplate, {
+  feedsContainer.innerHTML = Mustache.render(feedsTemplate, {
     i18n: () => (key) => i18next.t(key),
     feeds: state.feeds,
   });
-  feedsContainer.innerHTML = content;
 };
 
 export const renderPosts = (container, state, i18next) => {
   const postsContainer = container.querySelector('.posts');
-  const content = Mustache.render(postsTemplate, {
+  postsContainer.innerHTML = Mustache.render(postsTemplate, {
     i18n: () => (key) => i18next.t(key),
     posts: state.posts.map((post) => ({
       ...post, isReadPost: state.readPosts.includes(post.id),
     })),
   });
-  postsContainer.innerHTML = content;
 };
 
 export default (container, state, i18next) => {
