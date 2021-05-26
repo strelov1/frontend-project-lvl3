@@ -91,7 +91,7 @@ const template = `
       </div>
   </section>
 {{/feeds.0}}
-`
+`;
 
 export default (container, state, i18next) => {
   // eslint-disable-next-line no-param-reassign

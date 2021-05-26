@@ -5,7 +5,7 @@ export default (value, feed) => {
     .string()
     .url()
     .required()
-    .notOneOf(feed.map(({url}) => url));
+    .notOneOf(feed.map(({ url }) => url));
 
   try {
     inputSchema.validateSync(value);

@@ -1,4 +1,3 @@
-
 import _ from 'lodash';
 
 import formState from './constant';
@@ -50,7 +49,7 @@ export default (container, state, i18n) => {
       form.error = errorMsg;
       return;
     }
-    
+
     form.state = formState.LOADING;
 
     loadNewFeeds(form.url, state)
@@ -60,7 +59,7 @@ export default (container, state, i18n) => {
         form.error = '';
       })
       .catch((error) => {
-        const errorKey = error.isParsingError ? 'rss_error': 'network_error';
+        const errorKey = error.isParsingError ? 'rss_error' : 'network_error';
         form.error = i18n.t(`form.validation.${errorKey}`);
         form.state = formState.EMPTY;
       });
