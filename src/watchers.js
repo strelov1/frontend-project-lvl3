@@ -1,9 +1,10 @@
 import onChange from 'on-change';
 import _ from 'lodash';
 
+import bindControllers from './controllers';
+import renderFull, {renderFeeds, renderPosts, renderForm, renderFormStatus} from './view';
 import parseRss from './parser';
 import fetchFeeds from './utils';
-import formState from './constant';
 
 const refreshPostsTimeout = 5 * 1000;
 
@@ -19,22 +20,30 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   }
 });
 
-export default (initState, onUpdate) => {
+export default (initState, i18Instance, container) => {
   const state = onChange(initState, function watch(path, value) {
-    switch (path) {
-      case 'form.error':
-        if (value) {
-          this.form.state = formState.EMPTY;
-        }
+    const changeKey = _.first(path.split('.'));
+    switch (changeKey) {
+      case 'form':
+        renderForm(container, this, i18Instance);
+        renderFormStatus(container, this, i18Instance);
+        bindControllers(container, this, i18Instance)
         break;
-      default:
+      case 'feeds':
+        renderFeeds(container, this, i18Instance);
+        break;
+      case 'posts':
+      case 'readPosts':
+        renderPosts(container, this, i18Instance);
+        bindControllers(container, state, i18Instance)
         break;
     }
-    onUpdate(this);
   });
+  
 
   // first render
-  onUpdate(state);
+  renderFull(container, state, i18Instance);
+  bindControllers(container, state, i18Instance)
 
   const refreshPosts = () => {
     const promises = state.feeds.map((feed) => updatePosts(feed, state));

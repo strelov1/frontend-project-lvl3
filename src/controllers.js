@@ -47,6 +47,7 @@ export default (container, state, i18n) => {
 
     if (errorMsg) {
       form.error = errorMsg;
+      form.state = formState.FILLING;
       return;
     }
 
@@ -54,14 +55,14 @@ export default (container, state, i18n) => {
 
     loadNewFeeds(form.url, state)
       .then(() => {
-        form.state = formState.COMPLETED;
         form.url = '';
         form.error = '';
+        form.state = formState.COMPLETED;
       })
       .catch((error) => {
         const errorKey = error.isParsingError ? 'rss_error' : 'network_error';
         form.error = i18n.t(`form.validation.${errorKey}`);
-        form.state = formState.EMPTY;
+        form.state = formState.FILLING;
       });
   });
 

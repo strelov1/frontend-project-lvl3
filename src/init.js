@@ -3,8 +3,6 @@ import { setLocale } from 'yup';
 import locales from './locales';
 
 import attachWatchers from './watchers';
-import bindControllers from './controllers';
-import render from './view';
 import formState from './constant';
 
 export default () => {
@@ -12,7 +10,7 @@ export default () => {
     form: {
       url: '',
       error: '',
-      state: formState.EMPTY,
+      state: formState.FILLING,
     },
     feeds: [],
     posts: [],
@@ -38,9 +36,7 @@ export default () => {
       },
     });
 
-    attachWatchers(initState, (state) => {
-      render(container, state, i18Instance);
-      bindControllers(container, state, i18Instance);
-    });
+    attachWatchers(initState, i18Instance, container);
+
   });
 };
