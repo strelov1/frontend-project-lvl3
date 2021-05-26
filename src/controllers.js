@@ -82,7 +82,6 @@ export const postsHandlers = (container, state) => {
 
       readPosts.push(postId);
 
-      console.log('state', readPosts);
       form.state = formState.LOADING;
     });
   });

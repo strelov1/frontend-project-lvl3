@@ -24,7 +24,6 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
 
 export default (initState, i18Instance, container) => {
   const watchedState = onChange(initState, (path, value) => {
-    console.log('onChange', path, value);
     switch (path) {
       case 'form.state':
         renderForm(container, watchedState, i18Instance);
