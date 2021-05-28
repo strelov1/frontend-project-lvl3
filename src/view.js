@@ -1,49 +1,6 @@
 import Mustache from 'mustache';
 import formState from './constant';
 
-const formTemplate = `
-<div class="input-group mb-3">
-    <input
-        {{# formLoading }}readonly{{/ formLoading }}
-        type="text"
-        autofocus
-        required
-        name="url"
-        class="form-control {{# form.error}}is-invalid{{/ form.error}}"
-        placeholder="ссылка RSS"
-        aria-label="url"
-        aria-describedby="button-addon"
-        value="{{ form.url }}"
-    >
-    <div class="input-group-append">
-        <button 
-            class="btn btn-outline-secondary"
-            type="submit"
-            id="button-addon"
-            aria-label="add"
-            {{# formLoading }}disabled{{/ formLoading }}
-        >
-            ADD
-        </button>
-    </div>
-</div>
-`;
-
-const formStatusTemplate = `
-<p class="text-muted">
-{{#i18n}}form.example{{/i18n}} https://ru.hexlet.io/lessons.rss
-</p>
-{{# form.error }}
-<div class="feedback text-danger">{{ form.error }}</div>
-{{/ form.error }}
-{{# formCompleted }}
-<div class="feedback text-success">
-    {{#i18n}}form.success{{/i18n}}
-</div>
-{{/ formCompleted }}
-{{# formLoading }}Loading...{{/ formLoading }}
-`;
-
 const fullTemplate = `
 <section class="jumbotron">
     <div class="container-fluid bg-dark p-5">
@@ -52,9 +9,7 @@ const fullTemplate = `
                 <h1>{{#i18n}}form.title{{/i18n}}</h1>
                 <p class="lead text-muted">{{#i18n}}form.description{{/i18n}}</p>
                 <form class="rss-form">
-                   ${formTemplate}
                 </form>
-                ${formStatusTemplate}
             </div>
         </div>
     </div>
@@ -104,24 +59,98 @@ const postsTemplate = `
 </ul>
 `;
 
-export const renderForm = (container, state, i18next) => {
-  const formContainer = container.querySelector('.rss-form');
-  formContainer.innerHTML = Mustache.render(formTemplate, {
-    form: state.form,
-    i18n: () => (key) => i18next.t(key),
-    formCompleted: state.form.state === formState.COMPLETED,
-    formLoading: state.form.state === formState.LOADING,
-  });
+const buildAddInput = (view, i18n) => {
+  const input = document.createElement('input');
+
+  input.setAttribute('type', 'text');
+  input.setAttribute('name', 'url');
+  input.setAttribute('autofocus', true);
+  input.setAttribute('required', true);
+  input.setAttribute('placeholder', i18n.t('form.label'));
+  input.setAttribute('aria-label', 'url');
+  input.setAttribute('aria-describedby', 'button-addon');
+  input.setAttribute('value', view.form.url);
+
+  input.classList.add('form-control');
+
+  if (view.form.error) {
+    input.classList.add('is-invalid');
+  }
+  if (view.formLoading) {
+    input.setAttribute('readonly', true);
+  }
+  return input;
 };
 
-export const renderFormStatus = (container, state, i18next) => {
+const buildAddButton = (view, i18n) => {
+  const button = document.createElement('button');
+
+  button.setAttribute('type', 'submit');
+  button.setAttribute('id', 'button-addon');
+  button.setAttribute('aria-label', 'add');
+  button.textContent = i18n.t('form.button');
+
+  button.classList.add('btn', 'btn-outline-secondary');
+
+  if (view.formLoading) {
+    button.setAttribute('disabled', true);
+  }
+  return button;
+};
+
+const buildFormStatus = (state, i18n) => {
+  const fragment = document.createDocumentFragment();
+
+  const example = document.createElement('div');
+  example.classList.add('text-muted');
+  example.textContent = `${i18n.t('form.example')} https://ru.hexlet.io/lessons.rss`;
+  fragment.appendChild(example);
+
+  if (state.form.error) {
+    const feedbackError = document.createElement('div');
+    feedbackError.classList.add('feedback', 'text-danger');
+    feedbackError.textContent = i18n.t(state.form.error);
+    fragment.appendChild(feedbackError);
+  }
+
+  if (state.form.state === formState.COMPLETED) {
+    const feedbackSuccess = document.createElement('div');
+    feedbackSuccess.classList.add('feedback', 'text-success');
+    feedbackSuccess.textContent = i18n.t('form.success');
+    fragment.appendChild(feedbackSuccess);
+  }
+
+  if (state.form.state === formState.LOADING) {
+    const formLoading = document.createElement('div');
+    formLoading.classList.add('text-muted');
+    formLoading.textContent = i18n.t('form.loading');
+    fragment.appendChild(formLoading);
+  }
+
+  return fragment;
+};
+
+export const renderForm = (container, state, i18n) => {
   const formContainer = container.querySelector('.rss-form');
-  formContainer.nextElementSibling.innerHTML = Mustache.render(formStatusTemplate, {
-    form: state.form,
-    i18n: () => (key) => i18next.t(key),
-    formCompleted: state.form.state === formState.COMPLETED,
-    formLoading: state.form.state === formState.LOADING,
-  });
+
+  const addInput = buildAddInput(state, i18n);
+  const addButton = buildAddButton(state, i18n);
+
+  const inputGroupWrapper = document.createElement('div');
+  inputGroupWrapper.classList.add('input-group-append');
+  inputGroupWrapper.appendChild(addButton);
+
+  const divWrapper = document.createElement('div');
+  divWrapper.classList.add('input-group', 'mb-3');
+
+  divWrapper.appendChild(addInput);
+  divWrapper.appendChild(inputGroupWrapper);
+
+  formContainer.innerHTML = '';
+  formContainer.appendChild(divWrapper);
+
+  const formStatus = buildFormStatus(state, i18n);
+  formContainer.append(formStatus);
 };
 
 export const renderFeeds = (container, state, i18next) => {
@@ -148,8 +177,6 @@ export default (container, state, i18next) => {
   container.innerHTML = Mustache.render(fullTemplate, {
     ...state,
     i18n: () => (key) => i18next.t(key),
-    formCompleted: state.form.state === formState.COMPLETED,
-    formLoading: state.form.state === formState.LOADING,
     posts: state.posts.map((post) => ({
       ...post, isReadPost: state.readPosts.includes(post.id),
     })),

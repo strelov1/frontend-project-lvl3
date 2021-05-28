@@ -7,6 +7,8 @@ export default {
         label: 'RSS link',
         example: 'Example',
         success: 'RSS loaded',
+        loading: 'Loading...',
+        button: 'ADD',
         validation: {
           already_exist: 'Rss already exist',
           invalid: 'The link must be a valid URL',
@@ -32,6 +34,8 @@ export default {
         label: 'ссылка RSS',
         example: 'Пример',
         success: 'RSS успешно загружен',
+        loading: 'Загрузка...',
+        button: 'Добавить',
         validation: {
           already_exist: 'RSS уже существует',
           invalid: 'Ссылка должна быть валидным URL',

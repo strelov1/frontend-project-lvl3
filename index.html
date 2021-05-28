@@ -6,7 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <main role="main" id="root"></main>
+    <main role="main" id="root">
+      <section class="jumbotron">
+        <div class="container-fluid bg-dark p-5">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto text-white">
+                    <h1>{{#i18n}}form.title{{/i18n}}</h1>
+                    <p class="lead text-muted">{{#i18n}}form.description{{/i18n}}</p>
+                    <form class="rss-form">
+                    </form>
+                </div>
+            </div>
+        </div>
+      </section>
+      <section class="container-fluid p-5">
+          <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto feeds"></div>
+          </div>
+          <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto posts"></div>
+          </div>
+      </section>
+    </main>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

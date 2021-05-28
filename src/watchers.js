@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { postsHandlers, formHandlers } from './controllers';
 import renderFull, {
-  renderFeeds, renderPosts, renderForm, renderFormStatus,
+  renderFeeds, renderPosts, renderForm,
 } from './view';
 import parseRss from './parser';
 import { fetchFeeds } from './utils';
@@ -22,20 +22,19 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   }
 });
 
-export default (initState, i18Instance, container) => {
+export default (initState, i18n, container) => {
   const watchedState = onChange(initState, (path) => {
     switch (path) {
       case 'form.state':
-        renderForm(container, watchedState, i18Instance);
-        renderFormStatus(container, watchedState, i18Instance);
+        renderForm(container, watchedState, i18n);
         formHandlers(container, watchedState);
         break;
       case 'feeds':
-        renderFeeds(container, watchedState, i18Instance);
+        renderFeeds(container, watchedState, i18n);
         break;
       case 'readPosts':
       case 'posts':
-        renderPosts(container, watchedState, i18Instance);
+        renderPosts(container, watchedState, i18n);
         postsHandlers(container, watchedState);
         break;
       default:
@@ -44,7 +43,8 @@ export default (initState, i18Instance, container) => {
   });
 
   // first render
-  renderFull(container, watchedState, i18Instance);
+  renderFull(container, watchedState, i18n);
+  renderForm(container, watchedState, i18n);
   formHandlers(container, watchedState);
 
   const refreshPosts = () => {
