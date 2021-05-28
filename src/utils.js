@@ -15,7 +15,7 @@ export const parseErrorType = (error) => {
     return 'form.errors.rss';
   }
   if (error.isAxiosError) {
-    return 'network';
+    return 'form.errors.network';
   }
-  return 'unknown';
+  return 'form.errors.unknown';
 };
