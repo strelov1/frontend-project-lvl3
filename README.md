@@ -15,3 +15,21 @@ $ git clone https://github.com/strelov1/frontend-project-lvl3
 $ cd frontend-project-lvl3
 $ make install
 ```
+
+## Usage
+### Build 
+```sh
+$ make build
+```
+### Run in dev mode
+```sh
+$ make start
+```
+### Run tests
+```sh
+$ make test
+```
+### Eslint check
+```sh
+$ make lint
+```
