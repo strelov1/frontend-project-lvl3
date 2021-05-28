@@ -87,12 +87,12 @@ const postsTemplate = `
     {{#posts}}
     <li class="list-group-item d-flex justify-content-between align-items-start">
         {{#isReadPost}}
-            <a href="{{ link }}" class="font-weight-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+            <a href="{{ link }}" class="font-weight-normal fw-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
                 {{ title }}
             </a>
         {{/isReadPost}}
         {{^isReadPost}}
-            <a href="{{ link }}" class="font-weight-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
+            <a href="{{ link }}" class="font-weight-bold fw-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
                 {{ title }}
             </a>
         {{/isReadPost}}

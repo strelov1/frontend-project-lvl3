@@ -10,8 +10,11 @@ export default {
         validation: {
           already_exist: 'Rss already exist',
           invalid: 'The link must be a valid URL',
-          rss_error: 'The resource does not contain a valid RSS',
-          network_error: 'Network error',
+        },
+        errors: {
+          rss: 'The resource does not contain a valid RSS',
+          network: 'Network error',
+          unknown: 'An unexpected error occurred',
         },
       },
       feeds: 'Feeds',
@@ -32,8 +35,11 @@ export default {
         validation: {
           already_exist: 'RSS уже существует',
           invalid: 'Ссылка должна быть валидным URL',
-          rss_error: 'Ресурс не содержит валидный RSS',
-          network_error: 'Ошибка сети',
+        },
+        errors: {
+          rss: 'Ресурс не содержит валидный RSS',
+          network: 'Ошибка сети',
+          unknown: 'Произошла непредвиденная ошибка',
         },
       },
       feeds: 'Фиды',

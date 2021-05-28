@@ -1,8 +1,21 @@
 import axios from 'axios';
 
-const wrapProxy = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`;
+const wrapProxy = (url) => {
+  const urlBuilder = new URL('/get', 'https://hexlet-allorigins.herokuapp.com');
+  urlBuilder.searchParams.set('url', url);
+  urlBuilder.searchParams.set('disableCache', 'true');
+  return urlBuilder.toString();
+};
 
-const fetchFeeds = (url) => axios.get(wrapProxy(url))
+export const fetchFeeds = (url) => axios.get(wrapProxy(url))
   .then((response) => response.data.contents);
 
-export default fetchFeeds;
+export const parseErrorType = (error) => {
+  if (error.isParsingError) {
+    return 'form.errors.rss';
+  }
+  if (error.isAxiosError) {
+    return 'network';
+  }
+  return 'unknown';
+};

@@ -6,7 +6,7 @@ import renderFull, {
   renderFeeds, renderPosts, renderForm, renderFormStatus,
 } from './view';
 import parseRss from './parser';
-import fetchFeeds from './utils';
+import { fetchFeeds } from './utils';
 
 const refreshPostsTimeout = 5 * 1000;
 
@@ -28,7 +28,7 @@ export default (initState, i18Instance, container) => {
       case 'form.state':
         renderForm(container, watchedState, i18Instance);
         renderFormStatus(container, watchedState, i18Instance);
-        formHandlers(container, watchedState, i18Instance);
+        formHandlers(container, watchedState);
         break;
       case 'feeds':
         renderFeeds(container, watchedState, i18Instance);
@@ -45,7 +45,7 @@ export default (initState, i18Instance, container) => {
 
   // first render
   renderFull(container, watchedState, i18Instance);
-  formHandlers(container, watchedState, i18Instance);
+  formHandlers(container, watchedState);
 
   const refreshPosts = () => {
     const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import formState from './constant';
 import validateFeed from './validators';
 import parseRss from './parser';
-import fetchFeeds from './utils';
+import { fetchFeeds, parseErrorType } from './utils';
 
 const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
   const data = parseRss(xmlString);
@@ -24,7 +24,7 @@ const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
   }
 });
 
-export const formHandlers = (container, state, i18n) => {
+export const formHandlers = (container, state) => {
   const formElement = container.querySelector('.rss-form');
 
   const { form, feeds } = state;
@@ -37,10 +37,10 @@ export const formHandlers = (container, state, i18n) => {
 
     form.url = url;
 
-    const errorMsg = validateFeed(form.url, feeds);
+    const validationError = validateFeed(form.url, feeds);
 
-    if (errorMsg) {
-      form.error = errorMsg;
+    if (validationError) {
+      form.error = validationError;
       form.state = formState.ERROR;
       return;
     }
@@ -50,12 +50,11 @@ export const formHandlers = (container, state, i18n) => {
     loadNewFeeds(form.url, state)
       .then(() => {
         form.url = '';
-        form.error = '';
+        form.error = null;
         form.state = formState.COMPLETED;
       })
-      .catch((error) => {
-        const errorKey = error.isParsingError ? 'rss_error' : 'network_error';
-        form.error = i18n.t(`form.validation.${errorKey}`);
+      .catch((loadingError) => {
+        form.error = parseErrorType(loadingError);
         form.state = formState.ERROR;
       });
   });
@@ -69,7 +68,7 @@ export const postsHandlers = (container, state) => {
   const modalBody = modal.querySelector('.modal-body');
   const modalLink = modal.querySelector('.full-article');
 
-  const { form, readPosts, posts } = state;
+  const { readPosts, posts } = state;
 
   modalButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -81,8 +80,6 @@ export const postsHandlers = (container, state) => {
       modalLink.href = foundPost.link;
 
       readPosts.push(postId);
-
-      form.state = formState.LOADING;
     });
   });
 };

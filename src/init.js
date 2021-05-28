@@ -9,7 +9,7 @@ export default () => {
   const initState = {
     form: {
       url: '',
-      error: '',
+      error: null,
       state: formState.FILLING,
     },
     feeds: [],
@@ -27,12 +27,12 @@ export default () => {
   }).then(() => {
     setLocale({
       mixed: {
-        default: i18Instance.t('form.validation.invalid'),
-        notOneOf: i18Instance.t('form.validation.already_exist'),
+        default: 'form.validation.invalid',
+        notOneOf: 'form.validation.already_exist',
       },
       string: {
-        url: i18Instance.t('form.validation.invalid'),
-        default: i18Instance.t('form.validation.invalid'),
+        url: 'form.validation.invalid',
+        default: 'form.validation.invalid',
       },
     });
 
