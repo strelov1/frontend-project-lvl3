@@ -22,7 +22,7 @@ export default () => {
   const i18Instance = i18next.createInstance();
 
   return i18Instance.init({
-    lng: 'ru',
+    lng: 'en',
     resources: locales,
   }).then(() => {
     setLocale({
