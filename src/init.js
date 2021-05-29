@@ -18,6 +18,15 @@ export default () => {
   };
 
   const container = document.getElementById('root');
+  const form = container.querySelector('.rss-form');
+  const feedContainer = container.querySelector('.rss-form');
+  const postContainer = container.querySelector('.posts');
+
+  const elements = {
+    form,
+    feedContainer,
+    postContainer,
+  };
 
   const i18Instance = i18next.createInstance();
 
@@ -36,6 +45,6 @@ export default () => {
       },
     });
 
-    attachWatchers(initState, i18Instance, container);
+    attachWatchers(initState, elements, i18Instance);
   });
 };

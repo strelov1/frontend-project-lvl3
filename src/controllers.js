@@ -24,8 +24,8 @@ const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
   }
 });
 
-export const formHandlers = (container, state) => {
-  const formElement = container.querySelector('.rss-form');
+export const formHandlers = (elements, state) => {
+  const formElement = elements.form;
 
   const { form, feeds } = state;
 
@@ -36,6 +36,7 @@ export const formHandlers = (container, state) => {
     const url = formData.get('url').trim();
 
     form.url = url;
+    form.state = formState.LOADING;
 
     const validationError = validateFeed(form.url, feeds);
 
@@ -45,8 +46,6 @@ export const formHandlers = (container, state) => {
       return;
     }
 
-    form.state = formState.LOADING;
-
     loadNewFeeds(form.url, state)
       .then(() => {
         form.url = '';
@@ -54,15 +53,16 @@ export const formHandlers = (container, state) => {
         form.state = formState.COMPLETED;
       })
       .catch((loadingError) => {
-        console.log('ERROR', loadingError);
         form.error = parseErrorType(loadingError);
         form.state = formState.ERROR;
       });
   });
 };
 
-export const postsHandlers = (container, state) => {
-  const modalButtons = container.querySelectorAll('button[data-bs-toggle="modal"]');
+export const postsHandlers = (elements, state) => {
+  const { postContainer } = elements;
+
+  const modalButtons = postContainer.querySelectorAll('button[data-bs-toggle="modal"]');
 
   const modal = document.getElementById('exampleModal');
   const modalTitle = modal.querySelector('.modal-title');

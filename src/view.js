@@ -1,6 +1,6 @@
 import formState from './constant';
 
-const buildAddInput = (view, i18n) => {
+const buildAddInput = (form, i18n) => {
   const input = document.createElement('input');
 
   input.setAttribute('type', 'text');
@@ -10,20 +10,22 @@ const buildAddInput = (view, i18n) => {
   input.setAttribute('placeholder', i18n.t('form.label'));
   input.setAttribute('aria-label', 'url');
   input.setAttribute('aria-describedby', 'button-addon');
-  input.setAttribute('value', view.form.url);
+  input.setAttribute('value', form.url);
 
   input.classList.add('form-control');
 
-  if (view.form.error) {
-    input.classList.add('is-invalid');
-  }
-  if (view.formLoading) {
+  if (form.state === formState.LOADING) {
     input.setAttribute('readonly', true);
   }
+
+  if (form.state === formState.ERROR && form.error) {
+    input.classList.add('is-invalid');
+  }
+
   return input;
 };
 
-const buildAddButton = (view, i18n) => {
+const buildAddButton = (form, i18n) => {
   const button = document.createElement('button');
 
   button.setAttribute('type', 'submit');
@@ -33,13 +35,14 @@ const buildAddButton = (view, i18n) => {
 
   button.classList.add('btn', 'btn-outline-secondary');
 
-  if (view.formLoading) {
+  if (form.state === formState.LOADING) {
     button.setAttribute('disabled', true);
   }
+
   return button;
 };
 
-const buildFormStatus = (state, i18n) => {
+const buildFormStatus = (form, i18n) => {
   const fragment = document.createDocumentFragment();
 
   const example = document.createElement('div');
@@ -47,21 +50,21 @@ const buildFormStatus = (state, i18n) => {
   example.textContent = `${i18n.t('form.example')} https://ru.hexlet.io/lessons.rss`;
   fragment.appendChild(example);
 
-  if (state.form.error) {
+  if (form.state === formState.ERROR && form.error) {
     const feedbackError = document.createElement('div');
     feedbackError.classList.add('feedback', 'text-danger');
-    feedbackError.textContent = i18n.t(state.form.error);
+    feedbackError.textContent = i18n.t(form.error);
     fragment.appendChild(feedbackError);
   }
 
-  if (state.form.state === formState.COMPLETED) {
+  if (form.state === formState.COMPLETED) {
     const feedbackSuccess = document.createElement('div');
     feedbackSuccess.classList.add('feedback', 'text-success');
     feedbackSuccess.textContent = i18n.t('form.success');
     fragment.appendChild(feedbackSuccess);
   }
 
-  if (state.form.state === formState.LOADING) {
+  if (form.state === formState.LOADING) {
     const formLoading = document.createElement('div');
     formLoading.classList.add('text-muted');
     formLoading.textContent = i18n.t('form.loading');
@@ -92,11 +95,11 @@ const buildFeedList = (feed) => {
   return liElement;
 };
 
-export const renderForm = (container, state, i18n) => {
-  const formContainer = container.querySelector('.rss-form');
+export const renderForm = (elements, state, i18n) => {
+  const formContainer = elements.form;
 
-  const addInput = buildAddInput(state, i18n);
-  const addButton = buildAddButton(state, i18n);
+  const addInput = buildAddInput(state.form, i18n);
+  const addButton = buildAddButton(state.form, i18n);
 
   const inputGroupWrapper = document.createElement('div');
   inputGroupWrapper.classList.add('input-group-append');
@@ -111,27 +114,27 @@ export const renderForm = (container, state, i18n) => {
   formContainer.innerHTML = '';
   formContainer.appendChild(divWrapper);
 
-  const formStatus = buildFormStatus(state, i18n);
+  const formStatus = buildFormStatus(state.form, i18n);
   formContainer.append(formStatus);
 };
 
-export const renderFeeds = (container, state, i18n) => {
-  const feedsContainer = container.querySelector('.feeds');
+export const renderFeeds = (elements, state, i18n) => {
+  const { feedContainer } = elements;
   const fragment = document.createDocumentFragment();
 
   const titleElement = buildTitle(i18n.t('feeds'));
   fragment.append(titleElement);
 
-  const ulElement = document.createElement('ul');
-  ulElement.classList.add('list-group', 'mb-5');
+  const ul = document.createElement('ul');
+  ul.classList.add('list-group', 'mb-5');
 
-  const liElements = state.feeds.map(buildFeedList);
+  const li = state.feeds.map(buildFeedList);
 
-  ulElement.append(...liElements);
-  fragment.append(ulElement);
+  ul.append(...li);
+  fragment.append(ul);
 
-  feedsContainer.innerHTML = '';
-  feedsContainer.append(fragment);
+  feedContainer.innerHTML = '';
+  feedContainer.append(fragment);
 };
 
 const buildLink = (post) => {
@@ -177,12 +180,12 @@ const buildPostList = (post, i18n) => {
   return liElement;
 };
 
-export const renderPosts = (container, state, i18n) => {
+export const renderPosts = (elements, state, i18n) => {
   const posts = state.posts.map((post) => ({
     ...post, isReadPost: state.readPosts.includes(post.id),
   }));
 
-  const postsContainer = container.querySelector('.posts');
+  const { postContainer } = elements;
   const fragment = document.createDocumentFragment();
 
   const titleElement = buildTitle(i18n.t('posts.title'));
@@ -196,6 +199,6 @@ export const renderPosts = (container, state, i18n) => {
   ulElement.append(...liElements);
   fragment.append(ulElement);
 
-  postsContainer.innerHTML = '';
-  postsContainer.append(fragment);
+  postContainer.innerHTML = '';
+  postContainer.append(fragment);
 };

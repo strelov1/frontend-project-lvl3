@@ -22,20 +22,19 @@ const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   }
 });
 
-export default (initState, i18n, container) => {
+export default (initState, elements, i18n) => {
   const watchedState = onChange(initState, (path) => {
     switch (path) {
       case 'form.state':
-        renderForm(container, watchedState, i18n);
-        formHandlers(container, watchedState);
+        renderForm(elements, watchedState, i18n);
         break;
       case 'feeds':
-        renderFeeds(container, watchedState, i18n);
+        renderFeeds(elements, watchedState, i18n);
         break;
       case 'readPosts':
       case 'posts':
-        renderPosts(container, watchedState, i18n);
-        postsHandlers(container, watchedState);
+        renderPosts(elements, watchedState, i18n);
+        postsHandlers(elements, watchedState);
         break;
       default:
         break;
@@ -43,8 +42,8 @@ export default (initState, i18n, container) => {
   });
 
   // first render
-  renderForm(container, watchedState, i18n);
-  formHandlers(container, watchedState);
+  renderForm(elements, watchedState, i18n);
+  formHandlers(elements, watchedState);
 
   const refreshPosts = () => {
     const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));
