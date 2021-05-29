@@ -69,7 +69,7 @@ export const postsHandlers = (elements, state) => {
       const postId = e.target.dataset.id;
       // eslint-disable-next-line no-param-reassign
       state.selectedPostId = postId;
-      state.readPosts.push(postId);
+      state.viewedPosts.add(postId);
     });
   });
 };

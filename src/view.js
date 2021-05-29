@@ -144,7 +144,7 @@ const buildLink = (post) => {
   link.setAttribute('target', '_blank');
   link.setAttribute('rel', 'noopener noreferrer');
 
-  if (post.isReadPost) {
+  if (post.viewedPost) {
     link.classList.add('font-weight-normal', 'fw-normal');
   } else {
     link.classList.add('font-weight-bold', 'fw-bold');
@@ -182,7 +182,7 @@ const buildPostList = (post, i18n) => {
 
 export const renderPosts = (elements, state, i18n) => {
   const posts = state.posts.map((post) => ({
-    ...post, isReadPost: state.readPosts.includes(post.id),
+    ...post, viewedPost: state.viewedPosts.has(post.id),
   }));
 
   const { postContainer } = elements;

@@ -14,7 +14,7 @@ export default () => {
     },
     feeds: [],
     posts: [],
-    readPosts: [],
+    viewedPosts: new Set(),
     selectedPostId: null,
   };
 
@@ -40,12 +40,12 @@ export default () => {
   }).then(() => {
     setLocale({
       mixed: {
-        default: 'form.validation.invalid',
-        notOneOf: 'form.validation.already_exist',
+        default: () => ({ key: 'form.validation.invalid' }),
+        notOneOf: () => ({ key: 'form.validation.already_exist' }),
       },
       string: {
-        url: 'form.validation.invalid',
-        default: 'form.validation.invalid',
+        default: () => ({ key: 'form.validation.invalid' }),
+        url: () => ({ key: 'form.validation.invalid' }),
       },
     });
 

@@ -12,13 +12,11 @@ const refreshPostsTimeout = 5 * 1000;
 
 const updatePosts = (feed, state) => fetchFeeds(feed.url).then((xmlString) => {
   const data = parseRss(xmlString);
-  if (data) {
-    const oldPosts = state.posts.filter((post) => post.feedId === feed.id);
-    const diff = _.differenceBy(data.items, oldPosts, 'title');
-    if (!_.isEmpty(diff)) {
-      const newPost = diff.map((post) => ({ ...post, feedId: feed.id, id: _.uniqueId('post_') }));
-      state.posts.unshift(...newPost);
-    }
+  const oldPosts = state.posts.filter((post) => post.feedId === feed.id);
+  const diff = _.differenceBy(data.items, oldPosts, 'title');
+  if (!_.isEmpty(diff)) {
+    const newPost = diff.map((post) => ({ ...post, feedId: feed.id, id: _.uniqueId('post_') }));
+    state.posts.unshift(...newPost);
   }
 });
 
@@ -31,8 +29,8 @@ export default (initState, elements, i18n) => {
       case 'feeds':
         renderFeeds(elements, watchedState, i18n);
         break;
-      case 'readPosts':
       case 'posts':
+      case 'viewedPosts':
         renderPosts(elements, watchedState, i18n);
         postsHandlers(elements, watchedState);
         break;
