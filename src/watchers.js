@@ -34,7 +34,6 @@ export default (initState, elements, i18n) => {
       case 'readPosts':
       case 'posts':
         renderPosts(elements, watchedState, i18n);
-        postsHandlers(elements, watchedState);
         break;
       default:
         break;
@@ -44,6 +43,7 @@ export default (initState, elements, i18n) => {
   // first render
   renderForm(elements, watchedState, i18n);
   formHandlers(elements, watchedState);
+  postsHandlers(elements, watchedState);
 
   const refreshPosts = () => {
     const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));

@@ -22,10 +22,20 @@ export default () => {
   const feedContainer = container.querySelector('.rss-form');
   const postContainer = container.querySelector('.posts');
 
+  const modal = document.getElementById('exampleModal');
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  const modalLink = modal.querySelector('.full-article');
+
   const elements = {
     form,
     feedContainer,
     postContainer,
+    modal: {
+      title: modalTitle,
+      body: modalBody,
+      link: modalLink,
+    }
   };
 
   const i18Instance = i18next.createInstance();
