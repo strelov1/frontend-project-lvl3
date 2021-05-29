@@ -1,63 +1,4 @@
-import Mustache from 'mustache';
 import formState from './constant';
-
-const fullTemplate = `
-<section class="jumbotron">
-    <div class="container-fluid bg-dark p-5">
-        <div class="row">
-            <div class="col-md-10 col-lg-8 mx-auto text-white">
-                <h1>{{#i18n}}form.title{{/i18n}}</h1>
-                <p class="lead text-muted">{{#i18n}}form.description{{/i18n}}</p>
-                <form class="rss-form">
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="container-fluid p-5">
-    <div class="row">
-    <div class="col-md-10 col-lg-8 mx-auto feeds"></div>
-    </div>
-    <div class="row">
-    <div class="col-md-10 col-lg-8 mx-auto posts"></div>
-    </div>
-</section>
-`;
-
-const feedsTemplate = `
-<h2>{{#i18n}}feeds{{/i18n}}</h2>
-    <ul class="list-group mb-5">
-    {{#feeds}}
-        <li class="list-group-item">
-            <h3>{{ title }}</h3>
-            <p>{{ description }}</p>
-        </li>
-    {{/feeds}}
-</ul>
-`;
-
-const postsTemplate = `
-<h2>{{#i18n}}posts.title{{/i18n}}</h2>
-<ul class="list-group">
-    {{#posts}}
-    <li class="list-group-item d-flex justify-content-between align-items-start">
-        {{#isReadPost}}
-            <a href="{{ link }}" class="font-weight-normal fw-normal" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
-                {{ title }}
-            </a>
-        {{/isReadPost}}
-        {{^isReadPost}}
-            <a href="{{ link }}" class="font-weight-bold fw-bold" data-id="{{ id }}" target="_blank" rel="noopener noreferrer">
-                {{ title }}
-            </a>
-        {{/isReadPost}}
-        <button type="button" class="btn btn-primary btn-sm" data-id="{{ id }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            {{#i18n}}posts.show{{/i18n}}
-        </button>
-    </li>
-    {{/posts}}
-</ul>
-`;
 
 const buildAddInput = (view, i18n) => {
   const input = document.createElement('input');
@@ -130,6 +71,27 @@ const buildFormStatus = (state, i18n) => {
   return fragment;
 };
 
+const buildTitle = (text) => {
+  const title = document.createElement('h2');
+  title.textContent = text;
+  return title;
+};
+
+const buildFeedList = (feed) => {
+  const liElement = document.createElement('li');
+  liElement.classList.add('list-group-item');
+
+  const title = document.createElement('h3');
+  title.textContent = feed.title;
+
+  const p = document.createElement('p');
+  p.textContent = feed.description;
+
+  liElement.append(title);
+  liElement.append(p);
+  return liElement;
+};
+
 export const renderForm = (container, state, i18n) => {
   const formContainer = container.querySelector('.rss-form');
 
@@ -153,32 +115,87 @@ export const renderForm = (container, state, i18n) => {
   formContainer.append(formStatus);
 };
 
-export const renderFeeds = (container, state, i18next) => {
+export const renderFeeds = (container, state, i18n) => {
   const feedsContainer = container.querySelector('.feeds');
-  feedsContainer.innerHTML = Mustache.render(feedsTemplate, {
-    i18n: () => (key) => i18next.t(key),
-    feeds: state.feeds,
-  });
+  const fragment = document.createDocumentFragment();
+
+  const titleElement = buildTitle(i18n.t('feeds'));
+  fragment.append(titleElement);
+
+  const ulElement = document.createElement('ul');
+  ulElement.classList.add('list-group', 'mb-5');
+
+  const liElements = state.feeds.map(buildFeedList);
+
+  ulElement.append(...liElements);
+  fragment.append(ulElement);
+
+  feedsContainer.innerHTML = '';
+  feedsContainer.append(fragment);
 };
 
-export const renderPosts = (container, state, i18next) => {
+const buildLink = (post) => {
+  const link = document.createElement('a');
+  link.setAttribute('href', post.link);
+
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noopener noreferrer');
+
+  if (post.isReadPost) {
+    link.classList.add('font-weight-normal', 'fw-normal');
+  } else {
+    link.classList.add('font-weight-bold', 'fw-bold');
+  }
+
+  link.textContent = post.title;
+  return link;
+};
+
+const buildButton = (post, i18n) => {
+  const button = document.createElement('button');
+  button.setAttribute('type', 'button');
+  button.setAttribute('data-id', post.id);
+  button.setAttribute('data-bs-toggle', 'modal');
+  button.setAttribute('data-bs-target', '#exampleModal');
+
+  button.classList.add('btn', 'btn-primary', 'btn-sm');
+
+  button.textContent = i18n.t('posts.show');
+
+  return button;
+};
+
+const buildPostList = (post, i18n) => {
+  const liElement = document.createElement('li');
+  liElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
+
+  const link = buildLink(post);
+  const button = buildButton(post, i18n);
+
+  liElement.append(link);
+  liElement.append(button);
+  return liElement;
+};
+
+export const renderPosts = (container, state, i18n) => {
+  const posts = state.posts.map((post) => ({
+    ...post, isReadPost: state.readPosts.includes(post.id),
+  }));
+
   const postsContainer = container.querySelector('.posts');
-  postsContainer.innerHTML = Mustache.render(postsTemplate, {
-    i18n: () => (key) => i18next.t(key),
-    posts: state.posts.map((post) => ({
-      ...post, isReadPost: state.readPosts.includes(post.id),
-    })),
-  });
-};
+  const fragment = document.createDocumentFragment();
 
-export default (container, state, i18next) => {
-  document.title = i18next.t('form.title');
-  // eslint-disable-next-line no-param-reassign
-  container.innerHTML = Mustache.render(fullTemplate, {
-    ...state,
-    i18n: () => (key) => i18next.t(key),
-    posts: state.posts.map((post) => ({
-      ...post, isReadPost: state.readPosts.includes(post.id),
-    })),
-  });
+  const titleElement = buildTitle(i18n.t('posts.title'));
+  fragment.append(titleElement);
+
+  const ulElement = document.createElement('ul');
+  ulElement.classList.add('list-group');
+
+  const liElements = posts.map((post) => buildPostList(post, i18n));
+
+  ulElement.append(...liElements);
+  fragment.append(ulElement);
+
+  postsContainer.innerHTML = '';
+  postsContainer.append(fragment);
 };

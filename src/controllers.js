@@ -54,6 +54,7 @@ export const formHandlers = (container, state) => {
         form.state = formState.COMPLETED;
       })
       .catch((loadingError) => {
+        console.log('ERROR', loadingError);
         form.error = parseErrorType(loadingError);
         form.state = formState.ERROR;
       });

@@ -2,7 +2,7 @@ import onChange from 'on-change';
 import _ from 'lodash';
 
 import { postsHandlers, formHandlers } from './controllers';
-import renderFull, {
+import {
   renderFeeds, renderPosts, renderForm,
 } from './view';
 import parseRss from './parser';
@@ -43,7 +43,6 @@ export default (initState, i18n, container) => {
   });
 
   // first render
-  renderFull(container, watchedState, i18n);
   renderForm(container, watchedState, i18n);
   formHandlers(container, watchedState);
 
