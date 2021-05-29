@@ -25,11 +25,11 @@ const loadNewFeeds = (url, state) => fetchFeeds(url).then((xmlString) => {
 });
 
 export const formHandlers = (elements, state) => {
-  const formElement = elements.form;
+  const { formContainer } = elements;
 
   const { form, feeds } = state;
 
-  formElement.addEventListener('submit', (e) => {
+  formContainer.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -64,23 +64,12 @@ export const postsHandlers = (elements, state) => {
 
   const modalButtons = postContainer.querySelectorAll('button[data-bs-toggle="modal"]');
 
-  const modal = document.getElementById('exampleModal');
-  const modalTitle = modal.querySelector('.modal-title');
-  const modalBody = modal.querySelector('.modal-body');
-  const modalLink = modal.querySelector('.full-article');
-
-  const { readPosts, posts } = state;
-
   modalButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       const postId = e.target.dataset.id;
-      const foundPost = posts.find((item) => item.id === postId);
-
-      modalTitle.textContent = foundPost.title;
-      modalBody.textContent = foundPost.description;
-      modalLink.href = foundPost.link;
-
-      readPosts.push(postId);
+      // eslint-disable-next-line no-param-reassign
+      state.selectedPostId = postId;
+      state.readPosts.push(postId);
     });
   });
 };

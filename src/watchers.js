@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { postsHandlers, formHandlers } from './controllers';
 import {
-  renderFeeds, renderPosts, renderForm,
+  renderFeeds, renderPosts, renderForm, renderModal,
 } from './view';
 import parseRss from './parser';
 import { fetchFeeds } from './utils';
@@ -34,6 +34,10 @@ export default (initState, elements, i18n) => {
       case 'readPosts':
       case 'posts':
         renderPosts(elements, watchedState, i18n);
+        postsHandlers(elements, watchedState);
+        break;
+      case 'selectedPostId':
+        renderModal(elements, watchedState);
         break;
       default:
         break;
@@ -43,7 +47,6 @@ export default (initState, elements, i18n) => {
   // first render
   renderForm(elements, watchedState, i18n);
   formHandlers(elements, watchedState);
-  postsHandlers(elements, watchedState);
 
   const refreshPosts = () => {
     const promises = watchedState.feeds.map((feed) => updatePosts(feed, watchedState));

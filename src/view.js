@@ -96,7 +96,7 @@ const buildFeedList = (feed) => {
 };
 
 export const renderForm = (elements, state, i18n) => {
-  const formContainer = elements.form;
+  const { formContainer } = elements;
 
   const addInput = buildAddInput(state.form, i18n);
   const addButton = buildAddButton(state.form, i18n);
@@ -201,4 +201,18 @@ export const renderPosts = (elements, state, i18n) => {
 
   postContainer.innerHTML = '';
   postContainer.append(fragment);
+};
+
+export const renderModal = (elements, state) => {
+  const { modalContainer } = elements;
+
+  const modalTitle = modalContainer.querySelector('.modal-title');
+  const modalBody = modalContainer.querySelector('.modal-body');
+  const modalLink = modalContainer.querySelector('.full-article');
+
+  const selectedPost = state.posts.find((item) => item.id === state.selectedPostId);
+
+  modalTitle.textContent = selectedPost.title;
+  modalBody.textContent = selectedPost.description;
+  modalLink.href = selectedPost.link;
 };

@@ -15,27 +15,21 @@ export default () => {
     feeds: [],
     posts: [],
     readPosts: [],
+    selectedPostId: null,
   };
 
   const container = document.getElementById('root');
-  const form = container.querySelector('.rss-form');
-  const feedContainer = container.querySelector('.rss-form');
+  const formContainer = container.querySelector('.rss-form');
+  const feedContainer = container.querySelector('.feeds');
   const postContainer = container.querySelector('.posts');
 
-  const modal = document.getElementById('exampleModal');
-  const modalTitle = modal.querySelector('.modal-title');
-  const modalBody = modal.querySelector('.modal-body');
-  const modalLink = modal.querySelector('.full-article');
+  const modalContainer = document.getElementById('exampleModal');
 
   const elements = {
-    form,
+    formContainer,
     feedContainer,
     postContainer,
-    modal: {
-      title: modalTitle,
-      body: modalBody,
-      link: modalLink,
-    }
+    modalContainer,
   };
 
   const i18Instance = i18next.createInstance();
