@@ -53,7 +53,7 @@ const buildFormStatus = (form, i18n) => {
   if (form.state === formState.ERROR && form.error) {
     const feedbackError = document.createElement('div');
     feedbackError.classList.add('feedback', 'text-danger');
-    feedbackError.textContent = i18n.t(form.error);
+    feedbackError.textContent = i18n.t(form.error.key);
     fragment.appendChild(feedbackError);
   }
 
