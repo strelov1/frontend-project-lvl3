@@ -53,7 +53,7 @@ export const formHandlers = (elements, state) => {
         form.state = formState.COMPLETED;
       })
       .catch((loadingError) => {
-        form.error = parseErrorType(loadingError);
+        form.error = ({ key: parseErrorType(loadingError) });
         form.state = formState.ERROR;
       });
   });
